@@ -35,12 +35,12 @@ GLOBAL OPTIONS:
 
 **manually:**
 
-Download binany from [releases page](https://github.com/tokibi/undocker/releases)
+Download binany from [releases page](https://github.com/pepabo/undocker/releases)
 
 **go get:**
 
 ```console
-$ go get github.com/tokibi/undocker/cmd/undocker
+$ go get github.com/pepabo/undocker/cmd/undocker
 ```
 
 ### Extract
