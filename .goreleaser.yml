@@ -1,9 +1,53 @@
 builds:
-  - main: cmd/undocker/main.go
-    binary: undocker
-    goos:
-      - windows
-      - darwin
-      - linux
-    goarch:
-      - amd64
+-
+  id: undocker-linux
+  main: cmd/undocker/main.go
+  binary: undocker
+  goos:
+    - linux
+  goarch:
+    - amd64
+  ldflags:
+    - -s -w -X main.version={{.Version}}
+-
+  id: undocker-darwin
+  main: cmd/undocker/main.go
+  binary: undocker
+  goos:
+    - darwin
+  goarch:
+    - amd64
+  ldflags:
+    - -s -w -X main.version={{.Version}}
+archives:
+-
+  id: undocker-archive
+  name_template: '{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+  format_overrides:
+    - goos: darwin
+      format: zip
+  files:
+    - CREDITS
+    - README.md
+    - CHANGELOG.md
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ .Version }}-next"
+changelog:
+  skip: true
+nfpms:
+  -
+    id: undocker-nfpms
+    file_name_template: "{{ .ProjectName }}_{{ .Version }}-1_{{ .Arch }}"
+    builds:
+    - undocker-linux
+    homepage: https://github.com/pepabo/undocker
+    maintainer: Ken'ichiro Oyama <k1low@pepabo.com>
+    description: Go library and command line tool for decomposing docker images.
+    license: MIT
+    formats:
+      - deb
+      - rpm
+    bindir: /usr/bin
+    epoch: 1
