@@ -23,10 +23,10 @@ jobs:
       - name: Start test registry
         run: |
           docker-compose up -d
-          sleep 20s
+          sleep 5s
 
       - name: Run tests
-        run: env PATH=`go env GOPATH`/bin:$PATH make ci
+        run: env PATH=`go env GOPATH`/bin:$PATH sudo make ci
         env:
           DEBUG: "true"
           GOPROXY: "https://proxy.golang.org"
