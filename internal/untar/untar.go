@@ -2,7 +2,6 @@ package untar
 
 import (
 	"archive/tar"
-	"fmt"
 	"io"
 	"os"
 	"path/filepath"
@@ -30,8 +29,6 @@ func untar(r io.Reader, dir string, opts Options) error {
 		if f == nil {
 			continue
 		}
-		fmt.Printf("%#v\n", f)
-
 		rel := filepath.FromSlash(f.Name)
 		abs := filepath.Join(dir, rel)
 
