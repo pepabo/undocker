@@ -40,10 +40,10 @@ func untar(r io.Reader, dir string, opts Options) error {
 				}
 			}
 
-			if err = os.Chmod(abs, f.FileInfo().Mode()); err != nil {
+			if err := os.Chmod(abs, f.FileInfo().Mode()); err != nil {
 				return err
 			}
-			if err = os.Lchown(abs, f.Uid, f.Gid); err != nil {
+			if err := os.Lchown(abs, f.Uid, f.Gid); err != nil {
 				return err
 			}
 
@@ -67,10 +67,10 @@ func untar(r io.Reader, dir string, opts Options) error {
 				return err
 			}
 
-			if err = os.Chmod(abs, f.FileInfo().Mode()); err != nil {
+			if err := os.Chmod(abs, f.FileInfo().Mode()); err != nil {
 				return err
 			}
-			if err = os.Lchown(abs, f.Uid, f.Gid); err != nil {
+			if err := os.Lchown(abs, f.Uid, f.Gid); err != nil {
 				return err
 			}
 
@@ -91,7 +91,7 @@ func untar(r io.Reader, dir string, opts Options) error {
 				}
 			}
 
-			if err = os.Lchown(abs, f.Uid, f.Gid); err != nil {
+			if err := os.Lchown(abs, f.Uid, f.Gid); err != nil {
 				return err
 			}
 
@@ -100,10 +100,10 @@ func untar(r io.Reader, dir string, opts Options) error {
 				return err
 			}
 
-			if err = os.Chmod(abs, f.FileInfo().Mode()); err != nil {
+			if err := os.Chmod(abs, f.FileInfo().Mode()); err != nil {
 				return err
 			}
-			if err = os.Lchown(abs, f.Uid, f.Gid); err != nil {
+			if err := os.Lchown(abs, f.Uid, f.Gid); err != nil {
 				return err
 			}
 		}
