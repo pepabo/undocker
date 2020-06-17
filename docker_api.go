@@ -138,7 +138,9 @@ func (i *ImageBlob) LayerBlobs() ([]io.Reader, error) {
 		}
 		if strings.HasSuffix(f.Name, "/layer.tar") {
 			buf := new(bytes.Buffer)
-			io.Copy(buf, tr)
+			if _, err := io.Copy(buf, tr); err != nil {
+				return nil, err
+			}
 			bufs[f.Name] = buf
 		}
 	}
@@ -167,7 +169,9 @@ func (i *ImageBlob) Config() ([]byte, error) {
 		}
 		if strings.HasSuffix(f.Name, ".json") {
 			buf := new(bytes.Buffer)
-			io.Copy(buf, tr)
+			if _, err := io.Copy(buf, tr); err != nil {
+				return nil, err
+			}
 			bufs[f.Name] = buf
 		}
 	}
@@ -184,7 +188,9 @@ func unmarshalManifest(r io.Reader) (Manifest, error) {
 	var manifest Manifest
 
 	buf := new(bytes.Buffer)
-	io.Copy(buf, r)
+	if _, err := io.Copy(buf, r); err != nil {
+		return manifest, err
+	}
 	m := new([]Manifest)
 	if err := json.Unmarshal(buf.Bytes(), m); err != nil {
 		return manifest, err

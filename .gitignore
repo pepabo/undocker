@@ -3,3 +3,4 @@ undocker
 vendor/
 dist/
 tmp/
+coverage.txt

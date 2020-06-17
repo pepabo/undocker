@@ -137,7 +137,7 @@ func (r Registry) ExtractedBlob(repository string, digest digest.Digest) (io.Rea
 	}
 
 	tmpFilePath := filepath.Join(r.tmpDir, digest.String())
-	f, err := os.OpenFile(tmpFilePath, os.O_WRONLY|os.O_CREATE, 0777)
+	f, err := os.OpenFile(tmpFilePath, os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
 		return nil, err
 	}
@@ -152,7 +152,7 @@ func (r Registry) ExtractedBlob(repository string, digest digest.Digest) (io.Rea
 		return nil, err
 	}
 
-	blob, err := os.OpenFile(tmpFilePath, os.O_RDONLY, 0777)
+	blob, err := os.OpenFile(tmpFilePath, os.O_RDONLY, 0600)
 	if err != nil {
 		return nil, err
 	}

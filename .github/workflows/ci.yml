@@ -1,0 +1,32 @@
+name: build
+
+on:
+  push:
+
+jobs:
+  linux-test:
+    name: Test
+    strategy:
+      matrix:
+        platform: [ubuntu-latest]
+        go_version: [1.14]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Set up Go ${{ matrix.go_version }} on ${{ matrix.platform }}
+        uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.go_version }}
+
+      - name: Check out source code
+        uses: actions/checkout@v2
+
+      - name: Start test registry
+        run: |
+          docker-compose up -d
+          sleep 5s
+
+      - name: Run tests
+        run: sudo env PATH=`go env GOPATH`/bin:$PATH make ci
+        env:
+          DEBUG: "true"
+          GOPROXY: "https://proxy.golang.org"
