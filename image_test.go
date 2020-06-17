@@ -29,15 +29,15 @@ func TestImage_Extract(t *testing.T) {
 			wantDirs:         []string{"bin", "dev", "etc", "home", "root", "tmp", "usr", "var"},
 			wantErr:          false,
 		},
-		{
-			name:             "Extract lolipopmc/php:7.4 from docker registry",
-			rURL:             "https://registry.hub.docker.com",
-			repo:             "lolipopmc/php",
-			tag:              "7.4",
-			overwriteSymlink: false,
-			wantDirs:         []string{"bin", "boot", "dev", "etc", "home", "lib", "lib64", "media", "mnt", "opt", "proc", "root", "run", "sbin", "srv", "sys", "tmp", "usr", "var"},
-			wantErr:          false,
-		},
+		// {
+		// 	name:             "Extract lolipopmc/php:7.4 from docker registry",
+		// 	rURL:             "https://registry.hub.docker.com",
+		// 	repo:             "lolipopmc/php",
+		// 	tag:              "7.4",
+		// 	overwriteSymlink: false,
+		// 	wantDirs:         []string{"bin", "boot", "dev", "etc", "home", "lib", "lib64", "media", "mnt", "opt", "proc", "root", "run", "sbin", "srv", "sys", "tmp", "usr", "var"},
+		// 	wantErr:          false,
+		// },
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
