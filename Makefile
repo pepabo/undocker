@@ -13,7 +13,7 @@ test:
 	go test ./... -v -coverprofile=coverage.txt -covermode=count
 
 sec:
-	gosec ./...
+	gosec -exclude=G110 ./...
 
 depsdev:
 	go get golang.org/x/tools/cmd/cover

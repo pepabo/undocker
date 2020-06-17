@@ -35,7 +35,7 @@ func untar(r io.Reader, dir string, opts Options) error {
 		switch {
 		case f.Typeflag == tar.TypeDir:
 			if _, err := os.Stat(abs); err != nil {
-				if err := os.MkdirAll(abs, 0755); err != nil {
+				if err := os.MkdirAll(abs, 0750); err != nil {
 					return err
 				}
 			}
@@ -51,7 +51,9 @@ func untar(r io.Reader, dir string, opts Options) error {
 			// whiteout file
 			if strings.Contains(abs, ".wh.") {
 				rm := strings.Replace(abs, ".wh.", "", 1)
-				os.RemoveAll(rm)
+				if err := os.RemoveAll(rm); err != nil {
+					return err
+				}
 				continue
 			}
 			wf, err := os.OpenFile(abs, os.O_CREATE|os.O_RDWR|os.O_TRUNC, os.FileMode(f.Mode))
@@ -61,7 +63,9 @@ func untar(r io.Reader, dir string, opts Options) error {
 			if _, err := io.Copy(wf, tr); err != nil {
 				return err
 			}
-			wf.Close()
+			if err := wf.Close(); err != nil {
+				return err
+			}
 
 			if err = os.Chmod(abs, f.FileInfo().Mode()); err != nil {
 				return err
@@ -92,7 +96,9 @@ func untar(r io.Reader, dir string, opts Options) error {
 			}
 
 		case f.Typeflag == tar.TypeLink:
-			os.Link(filepath.Join(dir, f.Linkname), abs)
+			if err := os.Link(filepath.Join(dir, f.Linkname), abs); err != nil {
+				return err
+			}
 
 			if err = os.Chmod(abs, f.FileInfo().Mode()); err != nil {
 				return err
