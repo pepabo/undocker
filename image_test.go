@@ -9,12 +9,20 @@ import (
 
 func TestImage_Extract(t *testing.T) {
 	// tokibi/busybox-bundle-registry
-	registry, err := NewRegistry("http://localhost:5000", "", "")
+	rtmpdir, err := ioutil.TempDir("", "registry")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.RemoveAll(rtmpdir)
+	registry, err := NewRegistry("http://localhost:5000", "", "", rtmpdir)
 	if err != nil {
 		t.Error(err)
 	}
-	tmpdir, _ := ioutil.TempDir("./tmp/", "")
-	defer os.RemoveAll(tmpdir)
+	etmpdir, err := ioutil.TempDir("", "undocker")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.RemoveAll(etmpdir)
 
 	type fields struct {
 		Source     Source
@@ -39,7 +47,7 @@ func TestImage_Extract(t *testing.T) {
 				Tag:        "latest",
 			},
 			args: args{
-				dir:              tmpdir,
+				dir:              etmpdir,
 				overwriteSymlink: false,
 			},
 			wantErr: false,
@@ -55,7 +63,7 @@ func TestImage_Extract(t *testing.T) {
 			if err := i.Extract(tt.args.dir, tt.args.overwriteSymlink); (err != nil) != tt.wantErr {
 				t.Errorf("Image.Extract() error = %v, wantErr %v", err, tt.wantErr)
 			}
-			if info, err := os.Stat(filepath.Join(tmpdir, "bin")); err != nil || !info.IsDir() {
+			if info, err := os.Stat(filepath.Join(etmpdir, "bin")); err != nil || !info.IsDir() {
 				t.Error("Extract failed")
 			}
 		})
