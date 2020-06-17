@@ -12,6 +12,9 @@ build:
 test:
 	go test ./... -v -coverprofile=coverage.txt -covermode=count
 
+test_on_docker_on_mac:
+	docker run --add-host=localhost:`ipconfig getifaddr en0` --rm -it -v "$(PWD)":/go/src/github.com/pepabo/undocker -w /go/src/github.com/pepabo/undocker golang:latest go test ./... -v
+
 sec:
 	gosec -exclude=G110 ./...
 
